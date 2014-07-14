@@ -9,7 +9,7 @@ class Robot
     @surface = nil
     @x_position = nil
     @y_position = nil
-    @is_placed = false    
+    @placed = false    
     @headings = [:north, :east, :south, :west]
   end
 

@@ -14,6 +14,11 @@
 * Robot -> Surface loosely coupled interface allows for any shape and implementation
 * Simulation class to manage all dependencies
 
+Installation
+```shell
+$ bundle install
+```
+
 Test
 ```shell
 $ rspec  

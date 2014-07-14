@@ -31,14 +31,20 @@ class Simulator
     end
 
     def place_robot(arguments)
+      return false unless @robot && @surface # if we have no robot or surface do nothing
+
       if arguments.length == 3 && integer?(arguments[0]) && integer?(arguments[1])
         @robot.place(@surface, arguments[0].to_i, arguments[1].to_i, arguments[2])
+      else
+        false
       end
+
     end
 
     def report_robot_location
       if @robot.report_location 
         puts @robot.report_location
+        true
       end
     end
 

@@ -20,8 +20,7 @@ describe Table do
       it 'height correctly set' do
         expect(table.height).to be height
       end
-    end
-    
+    end    
   end
 
   describe '#valid_position?' do

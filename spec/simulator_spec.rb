@@ -4,8 +4,6 @@ require_relative '../lib/table'
 
 describe Simulator do
 
-  let(:table_width){5}
-  let(:table_height){5}
   let(:robot){Robot.new}
   let(:table){Table.new(5,5)}
 
@@ -25,47 +23,69 @@ describe Simulator do
     end
 
   end
-
+  
   describe '#execute_command' do
-    let(:simulator) {Simulator.new(table, robot)}
-    let(:x){rand(0..table_width)}
-    let(:y){rand(0..table_height)}
-
-    it 'successful place' do
-      simulator.execute_command("place #{x},#{y},NORTH")
-      expect(robot.x_position).to eq x
-      expect(robot.y_position).to eq y
+  
+    context 'intialized simulator with nil table and robot' do
+      subject(:simulator) {Simulator.new(nil, nil)}
+      
+      it 'should return false for a valid PLACE command' do
+        expect(simulator.execute_command("PLACE 0,0,NORTH")).to be false
+      end
     end
 
-    it 'with mixed case commands successfully placed' do
-      command = "place #{x},#{y},NORTH"
-      simulator.execute_command(command)
-      expect(robot.x_position).to eq x
-      expect(robot.y_position).to eq y
-      simulator.execute_command(command.downcase)
-      expect(robot.x_position).to eq x
-      expect(robot.y_position).to eq y
-      simulator.execute_command(command.upcase)
-      expect(robot.x_position).to eq x
-      expect(robot.y_position).to eq y
-      simulator.execute_command(command.capitalize)
-      expect(robot.x_position).to eq x
-      expect(robot.y_position).to eq y
+    context 'intialized simulator with vaild table nil robot' do
+      subject(:simulator) {Simulator.new(Table.new(5,5), nil)}
+      
+      it 'should return false for a valid PLACE command' do
+        expect(simulator.execute_command("PLACE 0,0,NORTH")).to be false
+      end
     end
 
-    it 'ignores invalid place command' do
-      x = "defunkt"
-      y = "defunkt"
-      simulator.execute_command("place #{x},#{y},NORTH")
-      expect(robot.x_position).to be_nil
-      expect(robot.y_position).to be_nil
+    context 'intialized simulator with nil table valid robot' do
+      subject(:simulator) {Simulator.new(nil, Robot.new)}
+      
+      it 'should return false for a valid PLACE command' do
+        expect(simulator.execute_command("PLACE 0,0,NORTH")).to be false
+      end
     end
 
-    it 'ignores invalid place command with no arguments' do
-      simulator.execute_command("place")
-      expect(robot.x_position).to be_nil
-      expect(robot.y_position).to be_nil
+    context 'intialized simulator with valid table and robot' do
+      subject(:simulator) {Simulator.new(table, robot)}
+
+      it 'successful place' do
+        expect(simulator.execute_command("place 0,0,NORTH")).to be true
+      end
+
+      it 'successful place with uppercase' do
+        expect(simulator.execute_command("PLACE 0,0,NORTH")).to be true
+      end
+
+      it 'successful place with lowercase' do
+        expect(simulator.execute_command("PLACE 0,0,NORTH".downcase)).to be true
+      end
+
+      it 'ignores invalid place command - position' do
+        expect(simulator.execute_command("place defunkt, defunkt, NORTH")).to be false
+      end
+
+      it 'ignores invalid place command - heading' do
+        expect(simulator.execute_command("place 0, 0,defunkt")).to be false
+      end
+
+      it 'ignores invalid place command with no arguments' do
+        expect(simulator.execute_command("place")).to be false
+      end
+
+      it 'successfuly report location' do
+        simulator.execute_command("PLACE 0,0,NORTH")
+        expect(simulator.execute_command("REPORT")).to be true
+      end
+
+      it 'should move' do
+        simulator.execute_command("PLACE 0,0,NORTH")
+        expect(simulator.execute_command("MOVE")).to be true
+      end
     end
   end
-
 end
