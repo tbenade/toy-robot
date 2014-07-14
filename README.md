@@ -16,17 +16,17 @@
 
 Test
 ```shell
-rspec  
+$ rspec  
 ```
 
 Documented test
 ```shell
-rspec -f d
+$ rspec -f d
 ```
 
 Run
 ```shell
-ruby lib/application.rb
+$ ruby lib/application.rb
 ```
 
 ## Original Exercise Description
@@ -54,8 +54,7 @@ be allowed.
 
 
 ### Constraints:
-The toy robot must not fall off the table during movement. This also includes the initial placement of the toy robot.
-Any move that would cause the robot to fall must be ignored.
+The toy robot must not fall off the table during movement. This also includes the initial placement of the toy robot. Any move that would cause the robot to fall must be ignored.
 
 ### Example Input and Output:
 #### Scenario a)
@@ -65,19 +64,19 @@ REPORT
 Output: 0,1,NORTH  
 
 #### Scenario b)
-PLACE 0,0,NORTH
-LEFT
-REPORT
-Output: 0,0,WEST
+PLACE 0,0,NORTH  
+LEFT  
+REPORT  
+Output: 0,0,WEST  
 
 #### Scenario c)
-PLACE 1,2,EAST
-MOVE
-MOVE
-LEFT
-MOVE
-REPORT
-Output: 3,3,NORTH
+PLACE 1,2,EAST  
+MOVE  
+MOVE  
+LEFT  
+MOVE  
+REPORT  
+Output: 3,3,NORTH  
 
 ### Deliverables:
 The source files, the test data and any test code.

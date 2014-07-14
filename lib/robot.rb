@@ -22,7 +22,7 @@ class Robot
     @x_position = x_position.to_i
     @y_position = y_position.to_i
     set_heading(heading)
-    @is_placed = true
+    @placed = true
   end
 
   def move_forward
@@ -40,8 +40,8 @@ class Robot
     end
   end
 
-  def is_placed?
-    @is_placed || false
+  def placed?
+    @placed || false
   end
 
   def rotate_left
@@ -53,7 +53,7 @@ class Robot
   end
 
   def report_location
-    is_placed? ? "#{x_position},#{y_position},#{heading.upcase}" : nil
+    placed? ? "#{x_position},#{y_position},#{heading.upcase}" : nil
   end 
 
   def all_headings
@@ -62,7 +62,7 @@ class Robot
   end
 
   def heading
-    is_placed? ? @headings[0] : nil
+    placed? ? @headings[0] : nil
   end
 
   private

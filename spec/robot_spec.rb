@@ -17,7 +17,7 @@ describe Robot do
   end
 
   describe 'move_forward' do
-    
+
     let(:surface){create_surface}
 
     context 'with room to move into' do
@@ -39,20 +39,11 @@ describe Robot do
       end
     end
     
-    it 'successfully moves' do
-      robot.place(surface, surface.width, surface.height,:south)
-      expect(robot.move_forward).to eq true
-      expect(robot.y_position).to eq robot.surface.height-1 # as we moved south 1
-      expect(robot.x_position).to eq robot.surface.width
-    end
-
     it 'ignores invalid move command' do
       robot.place(surface, 0, 0, :south)
       # setup surface to return the invalid position
       allow(robot.surface).to receive(:valid_position?).and_return(false)
       expect(robot.move_forward).to eq false
-      expect(robot.x_position).to eq 0 #check location unchanged
-      expect(robot.y_position).to eq 0 #check location unchanged
     end
 
   end
@@ -81,29 +72,29 @@ describe Robot do
     end
   end
 
-  describe '#is_placed?' do
+  describe '#placed?' do
 
     let(:surface){create_surface}
 
-    it 'returns false when not placed' do
-      expect(robot.is_placed?).to be false
+    it 'false when not placed' do
+      expect(robot.placed?).to be false
     end
 
-    it 'returns true when placed' do
+    it 'true when placed' do
       robot.place(surface, 0, 0, :north)
-      expect(robot.is_placed?).to be true
+      expect(robot.placed?).to be true
     end
 
-    it 'returns false when placed invalid location' do
+    it 'false when placed invalid location' do
       allow(surface).to receive(:valid_position?).with(-1,-1).and_return(false)
       robot.place(surface, -1, -1, :north)
-      expect(robot.is_placed?).to be false
+      expect(robot.placed?).to be false
     end
 
-    it 'returns false when placed invalid heading' do
+    it 'false when placed invalid heading' do
       allow(surface).to receive(:valid_position?).with(0,0).and_return(true)
       robot.place(surface, 0, 0, "defunkt")
-      expect(robot.is_placed?).to be false
+      expect(robot.placed?).to be false
     end
   end
 
