@@ -1,17 +1,17 @@
-# Toy Robot Simulator - Coding Excercise
+# Toy Robot Simulator - Coding Exercise
 
 ## Design philosophy
 
 * Transparent
 * Loosely coupled but highly cohesive - achieved through stateless functional style
-* Achieve cost of change ideally proportinate to value of the change.
+* Achieve cost of change ideally proportionate to value of the change.
 * Avoid unnecessary indirection
 * Testable
 
 ## Design decisions
 
 * Robot to depend on an interface from surface that provides a valid_position? method
-* Robot -> Surface loosely coupled interface allows for any shape and implmentation
+* Robot -> Surface loosely coupled interface allows for any shape and implementation
 * Simulation class to manage all dependencies
 
 Test
@@ -29,7 +29,7 @@ Run
 ruby lib/application.rb
 ```
 
-## Original Excercise Description
+## Original Exercise Description
 
 * The application is a simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.
 * There are no other obstructions on the table surface.
