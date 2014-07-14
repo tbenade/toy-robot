@@ -59,10 +59,10 @@ Any move that would cause the robot to fall must be ignored.
 
 ### Example Input and Output:
 #### Scenario a)
-PLACE 0,0,NORTH
-MOVE
-REPORT
-Output: 0,1,NORTH
+PLACE 0,0,NORTH  
+MOVE  
+REPORT  
+Output: 0,1,NORTH  
 
 #### Scenario b)
 PLACE 0,0,NORTH
