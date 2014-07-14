@@ -14,6 +14,8 @@
 * Robot -> Surface loosely coupled interface allows for any shape and implementation
 * Simulation class to manage all dependencies
 
+[Very scientific change log](https://github.com/tbenade/toy-robot/commits/master)
+
 Installation
 ```shell
 $ bundle install
