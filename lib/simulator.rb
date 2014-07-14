@@ -44,7 +44,6 @@ class Simulator
     def report_robot_location
       if @robot.report_location 
         puts @robot.report_location
-        true
       end
     end
 

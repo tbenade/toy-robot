@@ -26,6 +26,8 @@ class Robot
   end
 
   def move_forward
+    return false unless @placed
+
     case heading
     when :north
       place(@surface, @x_position, @y_position+1, heading)
@@ -45,10 +47,12 @@ class Robot
   end
 
   def rotate_left
+    return nil unless placed?
     rotate(-1)
   end
 
   def rotate_right
+    return nil unless placed?
     rotate(1)
   end
 

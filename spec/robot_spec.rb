@@ -15,6 +15,13 @@ describe Robot do
 
   describe 'move_forward' do
 
+    context 'is not placed' do
+      subject(:robot){Robot.new}
+      it 'returns false' do
+        expect(robot.move_forward).to eq false
+      end
+    end
+
     context 'when surface responds true for valid_position?' do
       let(:surface){create_surface}
       subject(:robot){Robot.new}
@@ -106,54 +113,74 @@ describe Robot do
   end
 
   describe 'rotate_left' do
-    
-    let(:surface){create_surface}
-    subject(:robot){Robot.new}
 
-    it 'rotates left successfully' do
-      robot.place(surface, 0, 0, :north)
-      robot.rotate_left
-      expect(robot.heading).to be :west
+    context 'is not placed' do
+      subject(:robot){Robot.new}
+      it 'returns false' do
+        expect(robot.rotate_left).to be nil
+      end
     end
 
-    it 'rotating unplaced has no effect' do
-      robot.rotate_left
-      expect(robot.heading).to be_nil
+    context 'is placed' do    
+      let(:surface){create_surface}
+      subject(:robot){Robot.new}
+
+      it 'rotates left successfully' do
+        robot.place(surface, 0, 0, :north)
+        robot.rotate_left
+        expect(robot.heading).to be :west
+      end
+
+      it 'rotating unplaced has no effect' do
+        robot.rotate_left
+        expect(robot.heading).to be_nil
+      end
     end
   end
 
   describe 'rotate_right' do
 
-    let(:surface){create_surface}
-    subject(:robot){Robot.new}
-
-    it 'rotates left successfully' do
-      robot.place(surface, 0, 0, :south)
-      robot.rotate_right
-      expect(robot.heading).to be :west
+    context 'is not placed' do
+      subject(:robot){Robot.new}
+      it 'returns false' do
+        expect(robot.rotate_right).to be nil
+      end
     end
 
-    it 'rotating unplaced has no effect' do
-      robot.rotate_right
-      expect(robot.heading).to be_nil
+    context 'is placed' do
+      let(:surface){create_surface}
+      subject(:robot){Robot.new}
+
+      it 'rotates left successfully' do
+        robot.place(surface, 0, 0, :south)
+        robot.rotate_right
+        expect(robot.heading).to be :west
+      end
     end
   end
 
   describe '#report_location' do
 
-    let(:surface){create_surface} 
-    subject(:robot){Robot.new}
+    context 'is placed' do
+      subject(:robot){
+        surface = create_surface
+        robot = Robot.new
+        robot.place(surface, surface.width, surface.height, :south)
+        robot
+      }
 
-    it 'reports the current location' do
-      allow(surface).to receive(:valid_position?).with(surface.width, surface.height).and_return(true)
-      heading = :south
-      robot.place(surface, surface.width, surface.height, heading)
-      expect(robot.report_location).to eq "#{robot.surface.width},#{robot.surface.height},#{robot.heading.upcase}"
+      it 'reports the current location' do
+        expect(robot.report_location).to eq "#{robot.surface.width},#{robot.surface.height},#{robot.heading.upcase}"
+      end
     end
 
-    it 'unplaced report no location' do
-      allow(surface).to receive(:valid_position?).with(nil,nil).and_return(false)
-      expect(robot.report_location).to be_nil
+    context 'is placed' do
+      subject(:robot){Robot.new}
+
+      it 'unplaced report no location' do
+        expect(robot.report_location).to be_nil
+      end
     end
+
   end
 end

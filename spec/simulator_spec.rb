@@ -77,11 +77,6 @@ describe Simulator do
         expect(simulator.execute_command("place")).to be false
       end
 
-      xit 'successfuly report location' do
-        simulator.execute_command("PLACE 0,0,NORTH")
-        expect(simulator.execute_command("REPORT")).to be true
-      end
-
       it 'should move' do
         simulator.execute_command("PLACE 0,0,NORTH")
         expect(simulator.execute_command("MOVE")).to be true

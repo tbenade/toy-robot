@@ -1,7 +1,7 @@
 
-require_relative '../lib/simulator'
-require_relative '../lib/robot'
-require_relative '../lib/table'
+require_relative 'simulator'
+require_relative 'robot'
+require_relative 'table'
 
 if ARGV.length > 0
   puts "Sorry I have no idea what to do with #{ARGV}. No args required!"
