@@ -2,25 +2,23 @@ require_relative '../lib/robot'
 
 describe Robot do
 
-  let(:robot){Robot.new}
-
   # creates a surface with a default valid_position? == true
-  def create_surface
-    double("surface", :height => rand(1..10), :width => rand(1..10), :valid_position? => true)
+  def create_surface(valid_position=true)
+    double("surface", :height => rand(1..10), :width => rand(1..10), :valid_position? => valid_position)
   end
 
   describe 'intialization' do
     it 'successful' do
-      robot = Robot.new
-      expect(robot).not_to be_nil
+      expect(Robot.new).not_to be_nil
     end
   end
 
   describe 'move_forward' do
 
-    let(:surface){create_surface}
-
-    context 'with room to move into' do
+    context 'when surface responds true for valid_position?' do
+      let(:surface){create_surface}
+      subject(:robot){Robot.new}
+    
       it 'moves north' do
         robot.place(surface, 0, 0, :north)
         expect(robot.move_forward).to eq true
@@ -39,11 +37,18 @@ describe Robot do
       end
     end
     
-    it 'ignores invalid move command' do
-      robot.place(surface, 0, 0, :south)
-      # setup surface to return the invalid position
-      allow(robot.surface).to receive(:valid_position?).and_return(false)
-      expect(robot.move_forward).to eq false
+    context 'when surface responds false for valid_position?' do
+      subject(:robot){
+        robot = Robot.new
+        robot.place(create_surface, 0, 0, :south)
+        robot
+      }
+ 
+      it 'ignores invalid move command' do
+        # setup surface to return the invalid position
+        allow(robot.surface).to receive(:valid_position?).and_return(false)
+        expect(robot.move_forward).to eq false
+      end
     end
 
   end
@@ -51,6 +56,7 @@ describe Robot do
   describe '#place' do
 
     let(:surface){create_surface}
+    subject(:robot){Robot.new}
 
     it 'successfully placed' do
       expect(robot.place(surface, 0, 0, :north)).to eq true
@@ -75,6 +81,7 @@ describe Robot do
   describe '#placed?' do
 
     let(:surface){create_surface}
+    subject(:robot){Robot.new}
 
     it 'false when not placed' do
       expect(robot.placed?).to be false
@@ -99,7 +106,9 @@ describe Robot do
   end
 
   describe 'rotate_left' do
+    
     let(:surface){create_surface}
+    subject(:robot){Robot.new}
 
     it 'rotates left successfully' do
       robot.place(surface, 0, 0, :north)
@@ -114,7 +123,9 @@ describe Robot do
   end
 
   describe 'rotate_right' do
+
     let(:surface){create_surface}
+    subject(:robot){Robot.new}
 
     it 'rotates left successfully' do
       robot.place(surface, 0, 0, :south)
@@ -129,7 +140,9 @@ describe Robot do
   end
 
   describe '#report_location' do
+
     let(:surface){create_surface} 
+    subject(:robot){Robot.new}
 
     it 'reports the current location' do
       allow(surface).to receive(:valid_position?).with(surface.width, surface.height).and_return(true)
