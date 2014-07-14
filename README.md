@@ -14,6 +14,21 @@
 * Robot -> Surface loosely coupled interface allows for any shape and implmentation
 * Simulation class to manage all dependencies
 
+Test
+```shell
+rspec  
+```
+
+Documented test
+```shell
+rspec -f d
+```
+
+Run
+```shell
+ruby lib/application.rb
+```
+
 ## Original Excercise Description
 
 * The application is a simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.
