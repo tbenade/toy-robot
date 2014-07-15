@@ -2,13 +2,13 @@
 
 class Robot
 
-  attr_reader :surface, :x_position, :y_position, :heading
+  attr_reader :surface, :x_position, :y_position, :heading, :all_headings
 
   def initialize
     @surface = nil
     @x_position = nil
     @y_position = nil   
-    @headings = [:north, :east, :south, :west]
+    @all_headings = [:north, :east, :south, :west]
   end
 
   def place(surface, x_position, y_position, heading)
@@ -52,18 +52,14 @@ class Robot
 
   def report_location
     placed? ? "#{x_position},#{y_position},#{heading.upcase}" : nil
-  end 
-
-  def all_headings    
-    @headings.rotate(@headings.index(:north)) # need a consistent array ideally always north @ zero
   end
-
+  
   private
 
     def rotate(rotation)
       if placed?
-        index = @headings.index(@heading.downcase.to_sym)
-        @heading = @headings.rotate(rotation+index)[0]
+        index = @all_headings.index(@heading.downcase.to_sym)
+        @heading = @all_headings.rotate(rotation+index)[0]
       end
     end
 
@@ -72,7 +68,7 @@ class Robot
     end
 
     def valid_heading?(heading)
-      heading ? @headings.include?(heading.downcase.to_sym): false
+      heading ? @all_headings.include?(heading.downcase.to_sym): false
     end 
 
 end
