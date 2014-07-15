@@ -12,10 +12,8 @@ class Robot
   end
 
   def place(surface, x_position, y_position, heading)
-    if !valid_placement?(surface, x_position, y_position) || !valid_heading?(heading)
-      return false
-    end
-
+    return false unless valid_placement?(surface, x_position, y_position) && valid_heading?(heading)
+    
     @surface = surface
     @x_position = x_position.to_i
     @y_position = y_position.to_i

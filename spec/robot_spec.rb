@@ -28,7 +28,6 @@ describe Robot do
     
       it 'moves north' do
         robot.place(surface, 0, 0, :north)
-        puts robot.placed?
         expect(robot.move_forward).to eq true
       end
       it 'moves east' do
@@ -127,11 +126,30 @@ describe Robot do
       let(:surface){create_surface}
       subject(:robot){Robot.new}
 
-      it 'rotates left successfully' do
+      it 'rotates from north to west' do
         robot.place(surface, 0, 0, :north)
         robot.rotate_left
         expect(robot.heading).to be :west
       end
+
+      it 'rotates from west to south' do
+        robot.place(surface, 0, 0, :west)
+        robot.rotate_left
+        expect(robot.heading).to be :south
+      end
+
+      it 'rotates from south to east' do
+        robot.place(surface, 0, 0, :south)
+        robot.rotate_left
+        expect(robot.heading).to be :east
+      end
+
+      it 'rotates from east to north' do
+        robot.place(surface, 0, 0, :south)
+        robot.rotate_left
+        expect(robot.heading).to be :east
+      end
+
     end
   end
 
@@ -148,10 +166,28 @@ describe Robot do
       let(:surface){create_surface}
       subject(:robot){Robot.new}
 
-      it 'rotates right successfully' do
+      it 'rotates from south to west' do
         robot.place(surface, 0, 0, :south)
         robot.rotate_right
         expect(robot.heading).to be :west
+      end
+
+      it 'rotates from west to north' do
+        robot.place(surface, 0, 0, :west)
+        robot.rotate_right
+        expect(robot.heading).to be :north
+      end
+
+      it 'rotates from north to east' do
+        robot.place(surface, 0, 0, :north)
+        robot.rotate_right
+        expect(robot.heading).to be :east
+      end
+
+       it 'rotates from east to sout' do
+        robot.place(surface, 0, 0, :east)
+        robot.rotate_right
+        expect(robot.heading).to be :south
       end
     end
   end
