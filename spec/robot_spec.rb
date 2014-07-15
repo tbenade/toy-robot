@@ -112,7 +112,7 @@ describe Robot do
     end
   end
 
-  describe 'rotate_left' do
+  describe '#rotate_left' do
 
     context 'is not placed' do
       subject(:robot){Robot.new}
@@ -153,7 +153,7 @@ describe Robot do
     end
   end
 
-  describe 'rotate_right' do
+  describe '#rotate_right' do
 
     context 'is not placed' do
       subject(:robot){Robot.new}
