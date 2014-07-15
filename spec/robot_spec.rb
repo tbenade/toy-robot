@@ -207,10 +207,10 @@ describe Robot do
       end
     end
 
-    context 'is placed' do
+    context 'is not placed' do
       subject(:robot){Robot.new}
 
-      it 'unplaced report no location' do
+      it 'report no location' do
         expect(robot.report_location).to be_nil
       end
     end
