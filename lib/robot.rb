@@ -2,57 +2,53 @@
 
 class Robot
 
-  attr_reader :surface, :x_position, :y_position
+  attr_reader :surface, :x_position, :y_position, :heading
 
   def initialize
-
     @surface = nil
     @x_position = nil
-    @y_position = nil
-    @placed = false    
+    @y_position = nil   
     @headings = [:north, :east, :south, :west]
   end
 
   def place(surface, x_position, y_position, heading)
-    if !is_valid_placement?(surface, x_position, y_position) || !is_valid_heading?(heading)
+    if !valid_placement?(surface, x_position, y_position) || !valid_heading?(heading)
       return false
     end
 
     @surface = surface
     @x_position = x_position.to_i
     @y_position = y_position.to_i
-    set_heading(heading)
-    @placed = true
+    @heading = heading
+    placed?
   end
 
   def move_forward
-    return false unless @placed
+    return false unless placed?
 
-    case heading
+    case @heading.downcase.to_sym
     when :north
-      place(@surface, @x_position, @y_position+1, heading)
+      place(@surface, @x_position, @y_position+1, @heading)
     when :east
-      place(@surface, @x_position+1, @y_position, heading)
+      place(@surface, @x_position+1, @y_position, @heading)
     when :south
-      place(@surface, @x_position, @y_position-1, heading)
+      place(@surface, @x_position, @y_position-1, @heading)
     when :west
-      place(@surface, @x_position-1, @y_position, heading)
+      place(@surface, @x_position-1, @y_position, @heading)
     else
-      raise "Invalid heading supplied: " + (heading || "not placed")
+      raise "Invalid heading supplied: " + (@heading || "not placed")
     end
   end
 
   def placed?
-    @placed || false
+    !!@surface && !!@x_position && !!@y_position && !!@heading
   end
 
   def rotate_left
-    return nil unless placed?
     rotate(-1)
   end
 
   def rotate_right
-    return nil unless placed?
     rotate(1)
   end
 
@@ -60,32 +56,24 @@ class Robot
     placed? ? "#{x_position},#{y_position},#{heading.upcase}" : nil
   end 
 
-  def all_headings
-    # need a consistent array ideally always north @ zero
-    @headings.rotate(@headings.index(:north))
-  end
-
-  def heading
-    placed? ? @headings[0] : nil
+  def all_headings    
+    @headings.rotate(@headings.index(:north)) # need a consistent array ideally always north @ zero
   end
 
   private
 
     def rotate(rotation)
-      @headings.rotate!(rotation)
-      @headings[0]
+      if placed?
+        index = @headings.index(@heading.downcase.to_sym)
+        @heading = @headings.rotate(rotation+index)[0]
+      end
     end
 
-    def set_heading(heading)
-      index = @headings.index(heading.downcase.to_sym)
-      rotate(index)
-    end
-
-    def is_valid_placement?(surface, x_position, y_position)
+    def valid_placement?(surface, x_position, y_position)
       surface.valid_position?(x_position, y_position)
     end
 
-    def is_valid_heading?(heading)
+    def valid_heading?(heading)
       heading ? @headings.include?(heading.downcase.to_sym): false
     end 
 

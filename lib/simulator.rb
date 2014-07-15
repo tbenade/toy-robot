@@ -16,6 +16,7 @@ class Simulator
 
   # method for executing commands on the robot
   def execute_command(command)
+    # TODO this method is awful needs some love
     command_array = command != '' ? command.split : []
     action = command_array[0]
     arguments = command_array.length>1 ?  command_array[1].split(',') : []

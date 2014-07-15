@@ -28,6 +28,7 @@ describe Robot do
     
       it 'moves north' do
         robot.place(surface, 0, 0, :north)
+        puts robot.placed?
         expect(robot.move_forward).to eq true
       end
       it 'moves east' do
@@ -116,6 +117,7 @@ describe Robot do
 
     context 'is not placed' do
       subject(:robot){Robot.new}
+      
       it 'returns false' do
         expect(robot.rotate_left).to be nil
       end
@@ -129,11 +131,6 @@ describe Robot do
         robot.place(surface, 0, 0, :north)
         robot.rotate_left
         expect(robot.heading).to be :west
-      end
-
-      it 'rotating unplaced has no effect' do
-        robot.rotate_left
-        expect(robot.heading).to be_nil
       end
     end
   end
@@ -151,7 +148,7 @@ describe Robot do
       let(:surface){create_surface}
       subject(:robot){Robot.new}
 
-      it 'rotates left successfully' do
+      it 'rotates right successfully' do
         robot.place(surface, 0, 0, :south)
         robot.rotate_right
         expect(robot.heading).to be :west
