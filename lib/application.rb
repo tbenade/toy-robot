@@ -14,6 +14,6 @@ puts "Send PLACE x,y,heading or MOVE or LEFT or RIGHT or REPORT. ctrl+c to Exit"
 
 command = gets
 while command
-  simulator.execute_command(command.strip)
+	simulator.execute_command(command.strip)
   command = gets
 end

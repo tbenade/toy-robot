@@ -20,7 +20,17 @@ describe Table do
       it 'height correctly set' do
         expect(table.height).to be height
       end
-    end    
+    end
+
+    it 'with negative width, sets width to 0' do
+      table = Table.new(-1,5) 
+      expect(table.width).to be 0 
+    end
+
+    it 'with negative height, sets height to 0' do
+      table = Table.new(5,-1) 
+      expect(table.height).to be 0 
+    end   
   end
 
   describe '#valid_position?' do

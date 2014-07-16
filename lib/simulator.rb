@@ -8,9 +8,10 @@ class Simulator
 
   attr_reader :robot, :surface
 
-  def initialize(surface, robot)
+  def initialize(surface, robot, output_stream=$stdout)
     @robot = robot
     @surface = surface
+    @output_stream = output_stream
     set_actions
   end
 
@@ -20,12 +21,18 @@ class Simulator
     command_array = command != '' ? command.split : []
     action = command_array[0]
     arguments = command_array.length>1 ?  command_array[1].split(',') : []
-    if valid_action?(action)
+    if valid_action?(action) && (internal_state_valid?)
       @actions[action.downcase.to_sym].call(arguments)
+    else
+      false
     end
   end
 
   private
+    def internal_state_valid?
+      !!@robot && !!@surface
+    end
+
     def valid_action?(action)
       return false if action.nil? || action.empty?
       @actions[action.strip.downcase.to_sym]
@@ -39,22 +46,16 @@ class Simulator
       else
         false
       end
-
-    end
-
-    def report_robot_location
-      if @robot.report_location 
-        puts @robot.report_location
-      end
     end
 
     def set_actions
+      #return unless @robot
       @actions = {
         :place => lambda {|args| place_robot(args)},
         :left => lambda {|args| @robot.rotate_left},
         :right => lambda {|args| @robot.rotate_right},
         :move => lambda {|args| @robot.move_forward},
-        :report => lambda {|args| report_robot_location},
+        :report => lambda {|args| @output_stream.puts @robot.report_location; @robot.report_location},
       }
     end
 end

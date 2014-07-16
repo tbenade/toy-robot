@@ -82,5 +82,20 @@ describe Simulator do
         expect(simulator.execute_command("MOVE")).to be true
       end
     end
+
+    context 'robot placed' do
+      let(:output_stream){double("output_stream")}
+      subject(:simulator) {
+        simulator =  Simulator.new(table, robot, output_stream)
+        simulator.execute_command("PLACE 0,0,EAST")
+        simulator
+      }
+
+      it 'reports location when asked' do
+        expect(output_stream).to receive(:puts)
+        report = simulator.execute_command("REPORT")
+      end
+    end
+
   end
 end

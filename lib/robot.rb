@@ -1,4 +1,4 @@
-# the class representing the toy that is running around in the simulation
+# the class representing a toy robot
 
 class Robot
 
@@ -51,7 +51,7 @@ class Robot
   end
 
   def report_location
-    placed? ? "#{x_position},#{y_position},#{heading.upcase}" : nil
+    placed? ? "#{@x_position},#{@y_position},#{@heading.upcase}" : nil
   end
   
   private
