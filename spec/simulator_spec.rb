@@ -84,7 +84,7 @@ describe Simulator do
     end
 
     context 'robot placed' do
-      let(:output_stream){double("output_stream")}
+      let(:output_stream){double("output_stream", :puts => nil)}
       subject(:simulator) {
         simulator =  Simulator.new(table, robot, output_stream)
         simulator.execute_command("PLACE 0,0,EAST")
@@ -93,9 +93,36 @@ describe Simulator do
 
       it 'reports location when asked' do
         expect(output_stream).to receive(:puts)
-        report = simulator.execute_command("REPORT")
+        simulator.execute_command("REPORT")
       end
-    end
 
+      it 'performs scenario A of specification' do
+        commands = ['PLACE 0,0,NORTH','MOVE','REPORT']
+        commands.each do |command|
+          simulator.execute_command(command)
+        end
+        expect(output_stream).to receive(:puts).with("0,1,NORTH")
+        simulator.execute_command('REPORT')
+      end
+
+      it 'performs scenario B of specification' do
+        commands = ['PLACE 0,0,NORTH','LEFT','REPORT']
+        commands.each do |command|
+          simulator.execute_command(command)
+        end
+        expect(output_stream).to receive(:puts).with("0,0,WEST")
+        simulator.execute_command('REPORT')
+      end
+
+      it 'performs scenario C of specification' do
+        commands = ['PLACE 1,2,EAST','MOVE','MOVE','LEFT','MOVE','REPORT']
+        commands.each do |command|
+          simulator.execute_command(command)
+        end
+        expect(output_stream).to receive(:puts).with("3,3,NORTH")
+        simulator.execute_command('REPORT')
+      end
+
+    end
   end
 end
