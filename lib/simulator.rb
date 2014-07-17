@@ -17,10 +17,8 @@ class Simulator
 
   # method for executing commands on the robot
   def execute_command(command)
-    # TODO this method is awful needs some love
-    command_array = command != '' ? command.split : []
-    action = command_array[0]
-    arguments = command_array.length>1 ?  command_array[1].split(',') : []
+    action, arguments = command.split
+    arguments = arguments.nil? ? [] : arguments.split(',')
     if valid_action?(action) && (internal_state_valid?)
       @actions[action.downcase.to_sym].call(arguments)
     else
